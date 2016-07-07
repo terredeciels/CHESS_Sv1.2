@@ -108,4 +108,6 @@ trait TGenS {
   def isPawn(piece: Int) = piece == PAWN
 
   def abs(x: Int) = if (x < 0) -x else x
+
+  def xside = if (side == -1) 1 else -1
 }
