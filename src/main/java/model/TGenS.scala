@@ -46,6 +46,7 @@ trait TGenS {
   val e1 = 60
   val e8 = 4
 
+   val o_o = Vector(Vector(e1, g1, h1, f1), Vector(e1, c1, a1, d1, b1), Vector(e8, g8, h8, f8), Vector(e8, c8, a8, d8, b8))
 
   val directions = Vector(0, 8, 4, 4, 8, 8)
   val mailbox64 = Vector[Int](
@@ -75,13 +76,15 @@ trait TGenS {
 
   def file(square: Int): Int = square % 8 //0 a 7
 
-  def rank(square: Int): Int =7 - square / 8 //0 a 7
+  def rank(square: Int): Int = 7 - square / 8 //0 a 7
 
-  def fileStr(square: Int): String = (file(square) + 1).toString
+  def fileStr(square: Int): String = FILES(file(square)).toString
 
-  def rankStr(square: Int): String = FILES(rank(square)).toString
+  def rankStr(square: Int): String = (rank(square)+1).toString
 
   val FILES = "abcdefgh"
+
+  def getString(square:Int): String = fileStr(square)+rankStr(square)
 
   val slide = Vector(false, false, true, true, true, false)
 
@@ -108,5 +111,5 @@ trait TGenS {
 
   def isPawn(piece: Int) = piece == PAWN
 
-
+  def abs(x:Int) = if (x<0) -x else x
 }
