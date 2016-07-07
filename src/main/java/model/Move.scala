@@ -17,6 +17,5 @@ object Move {
   def captpiece(move: Int) = move >> 20 & 15
 
 
-
 }
 

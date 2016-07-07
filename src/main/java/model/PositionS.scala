@@ -2,13 +2,15 @@ package model
 
 import scala.collection.mutable.ArrayBuffer
 
-class PositionS(pawnFlag:Boolean) extends TGenS {
+class PositionS(var pawnFlag: Boolean) extends TGenS {
 
-  var caseEP :Int = -1
-  var castles : ArrayBuffer[Boolean]=  ArrayBuffer.empty[Boolean]
+  var caseEP: Int = -1
+  var castles: ArrayBuffer[Boolean] = ArrayBuffer.empty[Boolean]
 
   var colors: ArrayBuffer[Int] = ArrayBuffer.empty[Int]
   var pieces: ArrayBuffer[Int] = ArrayBuffer.empty[Int]
+
+  def setPawnFlag(flag: Boolean) = pawnFlag = flag
 
   //initialisation
   (0 until 64).foreach(cO => colors += EMPTY)
@@ -20,7 +22,7 @@ object PositionS {
 
   val PosInit = new PositionS(false) {
 
-    castles = ArrayBuffer(true,true,true,true)
+    castles = ArrayBuffer(true, true, true, true)
 
     lastrank(black).foreach(cO => colors(cO) = black)
     rank2(black).foreach(cO => colors(cO) = black)

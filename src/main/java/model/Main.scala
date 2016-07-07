@@ -1,7 +1,7 @@
 package model
 
+import model.Move._
 import model.PositionS._
-import Move._
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -12,9 +12,9 @@ object Main extends TGenS {
     println(moves)
     println(moves.size)
 
-   val movesStr = ArrayBuffer.empty[String]
-    moves.foreach(move =>{
-      movesStr += getString(cO(move)) += getString(cX(move)) +"/"
+    val movesStr = ArrayBuffer.empty[String]
+    moves.foreach(move => {
+      movesStr += getString(cO(move)) += getString(cX(move)) + "/"
     }
     )
     println(movesStr)

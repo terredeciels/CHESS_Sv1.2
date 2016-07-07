@@ -4,7 +4,7 @@ object Demo {
   def main(args: Array[String]) {
     val cO: Int = 3 /* 3 = 0000 0011 */
     val cX: Int = 31 /* 13 = 0001 1111 */
-    val flag = 4
+    val flag = 15
     val capt_piece = 3
 
     var d: Int = cO << 8 | cX
@@ -21,6 +21,7 @@ object Demo {
     println("flag= " + fflag)
     println("cO= " + ccO)
     println("cX= " + ccX)
+    println(fflag & 8)
 
 
     //

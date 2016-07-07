@@ -17,8 +17,8 @@ class TGenSTest extends TGenS {
   println("echq")
   (0 until 64).foreach(square => {
 
-   // print(if (square % 8 == 0) "\n" else getString(square) )
-    print(getString(square)+" " )
+    // print(if (square % 8 == 0) "\n" else getString(square) )
+    print(getString(square) + " ")
   }
   )
 }

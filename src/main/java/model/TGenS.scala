@@ -46,7 +46,7 @@ trait TGenS {
   val e1 = 60
   val e8 = 4
 
-   val o_o = Vector(Vector(e1, g1, h1, f1), Vector(e1, c1, a1, d1, b1), Vector(e8, g8, h8, f8), Vector(e8, c8, a8, d8, b8))
+  val o_o = Vector(Vector(e1, g1, h1, f1), Vector(e1, c1, a1, d1, b1), Vector(e8, g8, h8, f8), Vector(e8, c8, a8, d8, b8))
 
   val directions = Vector(0, 8, 4, 4, 8, 8)
   val mailbox64 = Vector[Int](
@@ -73,26 +73,12 @@ trait TGenS {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
   )
-
-  def file(square: Int): Int = square % 8 //0 a 7
-
-  def rank(square: Int): Int = 7 - square / 8 //0 a 7
-
-  def fileStr(square: Int): String = FILES(file(square)).toString
-
-  def rankStr(square: Int): String = (rank(square)+1).toString
-
   val FILES = "abcdefgh"
-
-  def getString(square:Int): String = fileStr(square)+rankStr(square)
-
   val slide = Vector(false, false, true, true, true, false)
-
   val nord = -10
   val sud = +10
   val est = +1
   val ouest = -1
-
   val offset = Vector(
     Vector(0, 0, 0, 0, 0, 0, 0, 0), //0
     Vector(-21, -19, -12, -8, 8, 12, 19, 21), /* KNIGHT =2 (1)*/
@@ -101,6 +87,16 @@ trait TGenS {
     Vector(-11, nord, -9, ouest, est, 9, sud, 11), /* QUEEN =5 */
     Vector(-11, nord, -9, ouest, est, 9, sud, 11) /* KING =6  (5)*/
   )
+
+  def getString(square: Int): String = fileStr(square) + rankStr(square)
+
+  def fileStr(square: Int): String = FILES(file(square)).toString
+
+  def file(square: Int): Int = square % 8 //0 a 7
+
+  def rankStr(square: Int): String = (rank(square) + 1).toString
+
+  def rank(square: Int): Int = 7 - square / 8 //0 a 7
 
   def lastrank(couleur: Int) = if (couleur == white) a1 to h1 else a8 to h8
 
@@ -111,5 +107,5 @@ trait TGenS {
 
   def isPawn(piece: Int) = piece == PAWN
 
-  def abs(x:Int) = if (x<0) -x else x
+  def abs(x: Int) = if (x < 0) -x else x
 }

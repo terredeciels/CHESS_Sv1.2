@@ -7,6 +7,7 @@
       <w>avec</w>
       <w>captpiece</w>
       <w>couleur</w>
+      <w>deplacement</w>
       <w>donnée</w>
       <w>echq</w>
       <w>estouest</w>
@@ -18,9 +19,11 @@
       <w>ouest</w>
       <w>passant</w>
       <w>pion</w>
+      <w>retirer</w>
       <w>roque</w>
       <w>selon</w>
       <w>serch</w>
+      <w>simul</w>
       <w>xside</w>
     </words>
   </dictionary>
