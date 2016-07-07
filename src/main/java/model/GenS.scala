@@ -5,11 +5,14 @@ import model.Move._
 import scala.collection.mutable.ArrayBuffer
 import scala.util.control.Breaks
 
-class GenS(val pos: PositionS, val side: Int) extends TGenS {
+class GenS(val pos: PositionS, var side: Int) extends TGenS {
 
   var moves: ArrayBuffer[Int] = ArrayBuffer.empty[Int]
   var isCheck: Boolean = false
+  def getSide: Int =side
+  def setSide(side:Int) = this.side=side
 
+  def xside = if (side == -1) 1 else -1
   def search(): ArrayBuffer[Int] = {
     searchMoves
     searchEPMoves
@@ -124,13 +127,22 @@ class GenS(val pos: PositionS, val side: Int) extends TGenS {
         }
       }
     }
-    //    else {
-    //      diagonalePionAttaqueRoque(caseO, orientation, est)
-    //      diagonalePionAttaqueRoque(caseO, orientation, ouest)
-    //    }
+        else {
+          diagonalePionAttaqueRoque(caseO, NS.orientation, est)
+          diagonalePionAttaqueRoque(caseO, NS.orientation, ouest)
+        }
     moves
   }
-
+ def diagonalePionAttaqueRoque(caseO:Int, NordSudSelonCouleur:Int,  estOuOuest:Int) {
+   // val caseX = caseO + NordSudSelonCouleur + estOuOuest
+   val caseX = mailbox(mailbox64(caseO) + NordSudSelonCouleur + estOuOuest)
+    if (caseX != OUT) {
+      val flag = 4 // Attaque == Prise ?
+      val captpiece = pos.pieces(caseX)
+      moves += move(caseO, caseX, flag, captpiece)
+    //  pseudoCoups.add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats[caseX], Attaque, 0));
+    }
+  }
   def genMove(cO: Int, cX: Int, capture: Int) = {
     // println("piece" + cO + "," + cX + "," + capture)
     val flag = if (capture == 0) 0 else 4
@@ -157,7 +169,7 @@ class GenS(val pos: PositionS, val side: Int) extends TGenS {
   def castlingMoves: ArrayBuffer[Int] = {
     // List<GCoups> coupsAttaque = new GPosition(true).pseudoC(gp, -couleur);
     val pos = new PositionS(true)
-    val gen = new GenS(pos, -side)
+    val gen = new GenS(pos, - side)
     val coupsAttaque = gen.searchMoves
     val piece = pos.pieces
     val color = pos.colors
@@ -194,7 +206,7 @@ class GenS(val pos: PositionS, val side: Int) extends TGenS {
       positionSimul.setPawnFlag(true)
       val caseRoiCouleur = pCaseRoi(positionSimul, side)
 
-      val gen = new GenS(positionSimul, -side)
+      val gen = new GenS(positionSimul, - side)
       val pseudoCoupsPosSimul: ArrayBuffer[Int] = gen.searchMoves
       // val pseudoCoupsPosSimul = new PositionS(true).pseudoC(positionSimul, -side);
 
@@ -237,7 +249,7 @@ class GenS(val pos: PositionS, val side: Int) extends TGenS {
   def pCaseRoi(pos: PositionS, side: Int): Int =
     (0 until 64).find(cO => pos.pieces(cO) == KING && pos.colors(cO) == side).get
 
-  def fPositionSimul(m: Int, couleur: Int): PositionS = {
+  def fPositionSimul(m: Int, side: Int): PositionS = {
     val p = new PositionS(false)
     (0 until 64).foreach(e => p.pieces(e) = pos.pieces(e))
     (0 until 64).foreach(e => p.colors(e) = pos.colors(e))
@@ -257,22 +269,22 @@ class GenS(val pos: PositionS, val side: Int) extends TGenS {
         // e(p, X, O) //e(p, O)
         p.pieces(O) = p.pieces(X)
         p.pieces(O) = EMPTY
-        p.colors(X) = couleur
+        p.colors(X) = side
         p.colors(O) = EMPTY
         if (t == EnPassant)
         //e(p, X + nord * couleur)
         {
-          p.pieces(X + nord * couleur) = EMPTY
-          p.colors(X + nord * couleur) = EMPTY
+          p.pieces(X + nord * side) = EMPTY
+          p.colors(X + nord * side) = EMPTY
         }
       case Promotion => {
         piecePromotion match {
-          case 0 => p.pieces(X) = KNIGHT
-          case 1 => p.pieces(X) = BISHOP
-          case 2 => p.pieces(X) = ROOK
-          case 3 => p.pieces(X) = QUEEN
+          case 8 => p.pieces(X) = KNIGHT
+          case 9 => p.pieces(X) = BISHOP
+          case 10 => p.pieces(X) = ROOK
+          case 11 => p.pieces(X) = QUEEN
         }
-        p.colors(X) = couleur
+        p.colors(X) = side
         //e(p, O)
         p.pieces(O) = EMPTY
         p.colors(O) = EMPTY
