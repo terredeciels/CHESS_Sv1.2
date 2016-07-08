@@ -2,10 +2,10 @@ package model
 
 import scala.collection.mutable.ArrayBuffer
 
-object Castle extends TGenS{
-  var castles =  ArrayBuffer.empty[Boolean]
- // val itRoque = List(0, 1, 2, 3)
- // var o_o = Array(Array(e1, g1, h1, f1), Array(e1, c1, a1, d1, b1), Array(e8, g8, h8, f8), Array(e8, c8, a8, d8, b8))
+object Castle extends TGenS {
+  var castles = ArrayBuffer.empty[Boolean]
+  // val itRoque = List(0, 1, 2, 3)
+  // var o_o = Array(Array(e1, g1, h1, f1), Array(e1, c1, a1, d1, b1), Array(e8, g8, h8, f8), Array(e8, c8, a8, d8, b8))
 
   def unsetKQ() = {
     castles(0) = false
@@ -50,7 +50,7 @@ object Castle extends TGenS{
   def caseRoi(couleur: Int) = if (couleur == white) e1 else e8
 }
 
-class Castle extends TGenS{
+class Castle extends TGenS {
 
   var side = 0
 

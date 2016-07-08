@@ -2,10 +2,10 @@ package perft
 
 import java.io.{BufferedReader, FileReader, IOException}
 
-import position.{FenToGPosition, GCoups, GPositionS, UndoGCoups}
+import model.{FenToGPosition, PositionS, UndoMove}
 
 import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ArrayBuffer
 import scala.util.control.Breaks._
 
 object PerftCompare {
@@ -34,7 +34,7 @@ object PerftCompare {
             val entry: String = parts(i).trim
             val entryParts: Array[String] = entry.split(" ")
             val perftResult: Int = entryParts(1).toInt
-            val position: GPositionS = FenToGPosition.toGPosition(fen)
+            val position: PositionS = FenToGPosition.toGPosition(fen)
             val result: PerftResult = Perft.perft(position, i)
             if (perftResult == result.moveCount) {
               passes += 1
@@ -64,18 +64,19 @@ class PerftResult {
 }
 
 object Perft {
-  def perft(gp: GPositionS, depth: Int): PerftResult = {
+  def perft(gp: PositionS, depth: Int): PerftResult = {
     val result: PerftResult = new PerftResult
     if (depth == 0) {
       result.moveCount += 1
       return result
     }
-    val moves: ListBuffer[GCoups] = gp.coupsValides()
+    val moves: ArrayBuffer[Int] = gp.validMoves()
     var i: Int = 0
     while (i < moves.size) {
       {
-        val ui: UndoGCoups = new UndoGCoups
-        if (gp.exec(moves.apply(i), ui)) {
+        val ui: UndoMove = new UndoMove
+        val gen = new GenExecS(gp, gp.side)
+        if (gp.exec(moves(i), ui)) {
           val subPerft: PerftResult = perft(gp, depth - 1)
           gp.unexec(ui)
           result.moveCount += subPerft.moveCount
@@ -88,13 +89,13 @@ object Perft {
     result
   }
 
-  def divide(gp: GPositionS, depth: Int): mutable.HashMap[String, Long] = {
+  def divide(gp: PositionS, depth: Int): mutable.HashMap[String, Long] = {
     val result: mutable.HashMap[String, Long] = new mutable.HashMap[String, Long]
-    val moves: ListBuffer[GCoups] = gp.coupsValides()
+    val moves: ArrayBuffer[Int] = gp.coupsValides()
     var i: Int = 0
     while (i < moves.size) {
       {
-        val ui: UndoGCoups = new UndoGCoups
+        val ui: UndoMove = new UndoMove
         if (gp.exec(moves.apply(i), ui)) {
           val subPerft: PerftResult = perft(gp, depth - 1)
           gp.unexec(ui)
@@ -108,7 +109,7 @@ object Perft {
     result
   }
 
-  def toString(gc: GCoups): String = {
+  def toString(gc: Int): String = {
     GCoups.getString(gc)
   }
 }
