@@ -2,7 +2,7 @@ package perft
 
 import java.io.{BufferedReader, FileReader, IOException}
 
-import model.{FenToGPosition, Move, PositionS, UndoMove}
+import model.{FenToPositionS, Move, PositionS, UndoMove}
 
 import scala.collection.mutable
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
@@ -35,7 +35,7 @@ object PerftCompare {
             val entry: String = parts(i).trim
             val entryParts: Array[String] = entry.split(" ")
             val perftResult: Int = entryParts(1).toInt
-            val position: PositionS = FenToGPosition.toGPosition(fen)
+            val position: PositionS = FenToPositionS.toPositionS(fen)
             val result: PerftResult = Perft.perft(position, i)
             if (perftResult == result.moveCount) {
               passes += 1

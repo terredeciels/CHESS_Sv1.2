@@ -6,6 +6,8 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.control.Breaks
 
 class GenS(val pos: PositionS, var side: Int) extends TGenS {
+  var estEnEchec :Int=_
+
 
   var moves: ArrayBuffer[Int] = ArrayBuffer.empty[Int]
   var isCheck: Boolean = false

@@ -5,6 +5,8 @@ import Move._
 import Castle._
 
 class PositionS(var pawnFlag: Boolean) extends TGenS {
+  val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
 
   var side: Int = _
 
@@ -126,7 +128,7 @@ class PositionS(var pawnFlag: Boolean) extends TGenS {
   else if (cO(m) == e8 && flag(m) == 3) d8 else -1 // bug
 
   def coupsValides(): ArrayBuffer[Int] = {
-    val generateur = new GenExecS(this, side)
+    val generateur = new GenS(this, side)
     val coupsvalides = generateur.search()
     val estEnEchec = generateur.estEnEchec
     coupsvalides
