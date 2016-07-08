@@ -2,13 +2,14 @@ package perft
 
 import java.io.{BufferedReader, FileReader, IOException}
 
-import model.{FenToGPosition, PositionS, UndoMove}
+import model.{FenToGPosition, Move, PositionS, UndoMove}
 
 import scala.collection.mutable
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 import scala.util.control.Breaks._
 
 object PerftCompare {
+
   @throws[IOException]
   def main(args: Array[String]) {
     val maxDepth: Int = 4
@@ -70,17 +71,16 @@ object Perft {
       result.moveCount += 1
       return result
     }
-    val moves: ArrayBuffer[Int] = gp.validMoves()
+    val moves: ArrayBuffer[Int] = gp.coupsValides()
     var i: Int = 0
     while (i < moves.size) {
       {
         val ui: UndoMove = new UndoMove
-        val gen = new GenExecS(gp, gp.side)
-        if (gp.exec(moves(i), ui)) {
+        gp.exec(moves.apply(i), ui)
           val subPerft: PerftResult = perft(gp, depth - 1)
           gp.unexec(ui)
           result.moveCount += subPerft.moveCount
-        }
+
       }
       {
         i += 1
@@ -95,12 +95,12 @@ object Perft {
     var i: Int = 0
     while (i < moves.size) {
       {
-        val ui: UndoMove = new UndoMove
-        if (gp.exec(moves.apply(i), ui)) {
+        val ui: UndoMove= new UndoMove
+        gp.exec(moves.apply(i), ui)
           val subPerft: PerftResult = perft(gp, depth - 1)
           gp.unexec(ui)
           result.put(toString(moves.apply(i)), subPerft.moveCount)
-        }
+
       }
 
       i += 1
@@ -110,6 +110,6 @@ object Perft {
   }
 
   def toString(gc: Int): String = {
-    GCoups.getString(gc)
+    Move.getString(gc)
   }
 }

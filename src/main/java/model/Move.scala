@@ -1,6 +1,8 @@
 package model
 
 object Move {
+  def getString(gc: Int): _root_.scala.Predef.String = ???
+
   def move(cO: Int, cX: Int, flag: Int, captpiece: Int): Int = {
     var d: Int = cO << 8 | cX
     d |= flag << 16

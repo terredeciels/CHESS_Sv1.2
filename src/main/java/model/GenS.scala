@@ -5,18 +5,14 @@ import model.Move._
 import scala.collection.mutable.ArrayBuffer
 import scala.util.control.Breaks
 
-class GenS(var pos: PositionS, var side: Int) extends TGenS {
-
+class GenS(val pos: PositionS, var side: Int) extends TGenS {
 
   var moves: ArrayBuffer[Int] = ArrayBuffer.empty[Int]
   var isCheck: Boolean = false
-
-  def getSide: Int = side
-
-  def setSide(side: Int) = this.side = side
+  def getSide: Int =side
+  def setSide(side:Int) = this.side=side
 
   def xside = if (side == -1) 1 else -1
-
   def search(): ArrayBuffer[Int] = {
     searchMoves
     searchEPMoves
@@ -131,24 +127,22 @@ class GenS(var pos: PositionS, var side: Int) extends TGenS {
         }
       }
     }
-    else {
-      diagonalePionAttaqueRoque(caseO, NS.orientation, est)
-      diagonalePionAttaqueRoque(caseO, NS.orientation, ouest)
-    }
+        else {
+          diagonalePionAttaqueRoque(caseO, NS.orientation, est)
+          diagonalePionAttaqueRoque(caseO, NS.orientation, ouest)
+        }
     moves
   }
-
-  def diagonalePionAttaqueRoque(caseO: Int, NordSudSelonCouleur: Int, estOuOuest: Int) {
-    // val caseX = caseO + NordSudSelonCouleur + estOuOuest
-    val caseX = mailbox(mailbox64(caseO) + NordSudSelonCouleur + estOuOuest)
+ def diagonalePionAttaqueRoque(caseO:Int, NordSudSelonCouleur:Int,  estOuOuest:Int) {
+   // val caseX = caseO + NordSudSelonCouleur + estOuOuest
+   val caseX = mailbox(mailbox64(caseO) + NordSudSelonCouleur + estOuOuest)
     if (caseX != OUT) {
       val flag = 4 // Attaque == Prise ?
       val captpiece = pos.pieces(caseX)
       moves += move(caseO, caseX, flag, captpiece)
-      //  pseudoCoups.add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats[caseX], Attaque, 0));
+    //  pseudoCoups.add(new GCoups(couleur * PION, caseO, caseX, 0, 0, etats[caseX], Attaque, 0));
     }
   }
-
   def genMove(cO: Int, cX: Int, capture: Int) = {
     // println("piece" + cO + "," + cX + "," + capture)
     val flag = if (capture == 0) 0 else 4
@@ -175,7 +169,7 @@ class GenS(var pos: PositionS, var side: Int) extends TGenS {
   def castlingMoves: ArrayBuffer[Int] = {
     // List<GCoups> coupsAttaque = new GPosition(true).pseudoC(gp, -couleur);
     val pos = new PositionS(true)
-    val gen = new GenS(pos, -side)
+    val gen = new GenS(pos, - side)
     val coupsAttaque = gen.searchMoves
     val piece = pos.pieces
     val color = pos.colors
@@ -212,7 +206,7 @@ class GenS(var pos: PositionS, var side: Int) extends TGenS {
       positionSimul.setPawnFlag(true)
       val caseRoiCouleur = pCaseRoi(positionSimul, side)
 
-      val gen = new GenS(positionSimul, -side)
+      val gen = new GenS(positionSimul, - side)
       val pseudoCoupsPosSimul: ArrayBuffer[Int] = gen.searchMoves
       // val pseudoCoupsPosSimul = new PositionS(true).pseudoC(positionSimul, -side);
 

@@ -2,10 +2,10 @@ package model
 
 import scala.collection.mutable.ArrayBuffer
 
-class UndoMove extends TGenS {
-  var pieces = ArrayBuffer.empty[Int]
-  var colors = ArrayBuffer.empty[Int]
-  var castles = ArrayBuffer.empty[Boolean]
+class UndoMove extends TGenS{
+  var pieces= ArrayBuffer.empty[Int]
+  var colors= ArrayBuffer.empty[Int]
+  var castles =  ArrayBuffer.empty[Boolean]
   var caseEP: Int = _
 
   (0 until 64).foreach(cO => colors += EMPTY)

@@ -7,10 +7,12 @@
       <w>avec</w>
       <w>captpiece</w>
       <w>couleur</w>
+      <w>coupsvalides</w>
       <w>deplacement</w>
       <w>diagonale</w>
       <w>donnée</w>
       <w>droit</w>
+      <w>echec</w>
       <w>echq</w>
       <w>equivalentes</w>
       <w>estouest</w>
@@ -32,6 +34,7 @@
       <w>simul</w>
       <w>unexec</w>
       <w>valide</w>
+      <w>valides</w>
       <w>xside</w>
     </words>
   </dictionary>

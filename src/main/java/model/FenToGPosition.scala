@@ -3,7 +3,10 @@ package model
 import org.chesspresso.Chess
 import org.chesspresso.position.Position
 
-object FenToGPosition extends TGenS {
+import scala.Seq.range
+import scala.collection.mutable.ArrayBuffer
+
+object FenToGPosition extends TGenS{
 
   def toGPosition(fen: String): PositionS = toGPosition(new Position(fen))
 
@@ -20,17 +23,17 @@ object FenToGPosition extends TGenS {
 
     // TODO tester : cases et pieces equivalentes ?
 
-    // val etats = new Array[Int](NB_CELLULES)
-    //    var colors: ArrayBuffer[Int] = ArrayBuffer.empty[Int]
-    //    var pieces: ArrayBuffer[Int] = ArrayBuffer.empty[Int]
-    //    (0 until 64).foreach(cO => colors += EMPTY)
-    //    (0 until 64).foreach(cO => pieces += EMPTY)
+   // val etats = new Array[Int](NB_CELLULES)
+//    var colors: ArrayBuffer[Int] = ArrayBuffer.empty[Int]
+//    var pieces: ArrayBuffer[Int] = ArrayBuffer.empty[Int]
+//    (0 until 64).foreach(cO => colors += EMPTY)
+//    (0 until 64).foreach(cO => pieces += EMPTY)
 
     (0 until 64).foreach(caseO => cp_etats(caseO) = position.getStone(caseO))
     //range(0, NB_CELLULES).foreach(caseO => etats(caseO) = OUT)
     (0 until 64).foreach(caseO => gp.pieces(caseO) = cp_etats(caseO))
     (0 until 64).foreach(caseO => gp.colors(caseO) =
-      if (cp_etats(caseO) < 0) white else black)
+      if (cp_etats(caseO)<0) white else black  )
 
     //gp.pieces = pieces
     gp.side = if (position.getToPlay == Chess.WHITE) white else black
